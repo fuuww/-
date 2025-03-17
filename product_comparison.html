@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>스마트픽 - 제품 비교</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        /* 메인 홈페이지와 일관된 스타일 적용 */
+        :root {
+            --primary: #e93170;
+            --primary-dark: #d42665;
+            --secondary: #f8f9fa;
+            --dark: #343a40;
+            --light: #ffffff;
+            --gray: #e5e5e5;
+            --text: #212529;
+            --border-radius: 10px;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+        
+        body {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 20px;
+            color: var(--text);
+            background-color: var(--light);
+            overflow-x: hidden;
+        }
+        
+        /* Header styles - 메인 홈페이지와 동일하게 */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--gray);
+            background-color: var(--light);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+        
+        header.scrolled {
+            box-shadow: var(--shadow);
+            padding: 10px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            font-size: 24px;
+            color: var(--primary);
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+        
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .logo-box {
+            background-color: var(--gray);
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--border-radius);
+            margin-right: 10px;
+            font-size: 14px;
+            line-height: 1.2;
+            text-align: center;
+        }
+        
+        .page-title {
+            font-size: 22px;
+            font-weight: 600;
+        }
+        
+        /* Navigation buttons */
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .nav-button {
+            background-color: var(--secondary);
+            border: none;
+            border-radius: 50px;
+            padding: 12px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .nav-button:hover {
+            background-color: var(--gray);
+            transform: translateY(-2px);
+        }
+        
+        .nav-button i {
+            font-size: 16px;
+        }
+        
+        /* Breadcrumb */
+        .breadcrumb {
+            display: flex;
+            padding: 15px 0;
+            font-size: 13px;
+            color: var(--dark);
+            opacity: 0.7;
+        }
+        
+        .breadcrumb a {
+            color: var(--dark);
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            color: var(--primary);
+        }
+        
+        .breadcrumb-separator {
+            margin: 0 8px;
+        }
+        
+        /* Comparison table - updated to match main site */
+        .comparison-wrapper {
+            margin: 30px 0;
+        }
+        
+        .comparison-table {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        
+        /* Product cards - styled like main site */
+        .product-card {
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid var(--gray);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .product-header {
+            padding: 15px;
+            font-size: 16px;
+            font-weight: 500;
+            text-align: center;
+            border-bottom: 1px solid var(--gray);
+        }
+        
+        .product-image {
+            height: 220px;
+            background-color: var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .product-image img {
+            max-width: 100%;
+            max-height: 80%;
+            object-fit: contain;
+            transition: var(--transition);
+        }
+        
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+        
+        .product-specs {
+            padding: 0 15px;
+        }
+        
+        .spec-item {
+            padding: 15px 0;
+            border-bottom: 1px solid var(--gray);
+        }
+        
+        .spec-label {
+            font-size: 13px;
+            color: var(--dark);
+            opacity: 0.7;
+            margin-bottom: 5px;
+        }
+        
+        .spec-value {
+            font-size: 15px;
+            line-height: 1.4;
+        }
+        
+        .highlight {
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        /* Rating stars */
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .stars {
+            color: #ffcc33;
+        }
+        
+        .review-count {
+            color: var(--dark);
+            opacity: 0.7;
+            font-size: 13px;
+        }
+        
+        /* Action buttons */
+        .product-actions {
+            margin-top: auto;
+            padding: 20px 15px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .primary-button {
+            flex: 1;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 15px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .primary-button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+        
+        .secondary-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--secondary);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 14px;
+        }
+        
+        .secondary-button:hover {
+            background-color: var(--gray);
+            transform: translateY(-2px);
+        }
+        
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background-color: var(--dark);
+            color: var(--light);
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-size: 14px;
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.4s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        
+        .toast i {
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Toast notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toast-message">상품이 장바구니에 추가되었습니다.</span>
+    </div>
+    
+    <!-- Header section - Sticky -->
+    <header id="header">
+        <a href="index.html" class="logo">
+            <div class="logo-box">스마<br>트픽</div>
+            <span>스마트픽</span>
+        </a>
+        <div class="page-title">제품 비교</div>
+        <div class="nav-buttons">
+            <button class="nav-button">
+                <i class="fas fa-list"></i>
+                비교 목록
+            </button>
+            <button class="nav-button">
+                <i class="fas fa-shopping-cart"></i>
+                장바구니
+            </button>
+        </div>
+    </header>
+    
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <a href="index.html">홈</a>
+        <span class="breadcrumb-separator">></span>
+        <a href="computer.html">컴퓨터</a>
+        <span class="breadcrumb-separator">></span>
+        <span>제품 비교</span>
+    </div>
+    
+    <!-- Product comparison -->
+    <div class="comparison-wrapper">
+        <div class="comparison-table">
+            <!-- Product A -->
+            <div class="product-card">
+                <div class="product-header">갤럭시북 Pro 360</div>
+                <div class="product-image">
+                    <img src="/api/placeholder/300/160" alt="갤럭시북 Pro 360">
+                </div>
+                <div class="product-specs">
+                    <!-- Price -->
+                    <div class="spec-item">
+                        <div class="spec-label">가격</div>
+                        <div class="spec-value highlight">1,450,000원</div>
+                    </div>
+                    
+                    <!-- Processor -->
+                    <div class="spec-item">
+                        <div class="spec-label">프로세서</div>
+                        <div class="spec-value">Intel Core i7-1165G7</div>
+                    </div>
+                    
+                    <!-- RAM -->
+                    <div class="spec-item">
+                        <div class="spec-label">메모리</div>
+                        <div class="spec-value highlight">16GB LPDDR4X</div>
+                    </div>
+                    
+                    <!-- Storage -->
+                    <div class="spec-item">
+                        <div class="spec-label">저장 공간</div>
+                        <div class="spec-value">512GB NVMe SSD</div>
+                    </div>
+                    
+                    <!-- Display -->
+                    <div class="spec-item">
+                        <div class="spec-label">디스플레이</div>
+                        <div class="spec-value highlight">13.3" AMOLED 터치스크린</div>
+                    </div>
+                    
+                    <!-- Weight -->
+                    <div class="spec-item">
+                        <div class="spec-label">무게</div>
+                        <div class="spec-value highlight">1.04kg</div>
+                    </div>
+                    
+                    <!-- Rating -->
+                    <div class="spec-item">
+                        <div class="spec-label">리뷰</div>
+                        <div class="spec-value">
+                            <div class="rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <span>4.5</span>
+                                <span class="review-count">(245)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-actions">
+                    <button class="primary-button" onclick="showToast('갤럭시북 Pro 360이 장바구니에 추가되었습니다.')">
+                        <i class="fas fa-shopping-cart"></i>
+                        장바구니 추가
+                    </button>
+                    <button class="secondary-button" onclick="showToast('갤럭시북 Pro 360이 비교 목록에서 제거되었습니다.')">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Product B -->
+            <div class="product-card">
+                <div class="product-header">LG 그램 17</div>
+                <div class="product-image">
+                    <img src="/api/placeholder/300/160" alt="LG 그램 17">
+                </div>
+                <div class="product-specs">
+                    <!-- Price -->
+                    <div class="spec-item">
+                        <div class="spec-label">가격</div>
+                        <div class="spec-value">1,699,000원</div>
+                    </div>
+                    
+                    <!-- Processor -->
+                    <div class="spec-item">
+                        <div class="spec-label">프로세서</div>
+                        <div class="spec-value">Intel Core i5-1135G7</div>
+                    </div>
+                    
+                    <!-- RAM -->
+                    <div class="spec-item">
+                        <div class="spec-label">메모리</div>
+                        <div class="spec-value">8GB LPDDR4X</div>
+                    </div>
+                    
+                    <!-- Storage -->
+                    <div class="spec-item">
+                        <div class="spec-label">저장 공간</div>
+                        <div class="spec-value">512GB NVMe SSD</div>
+                    </div>
+                    
+                    <!-- Display -->
+                    <div class="spec-item">
+                        <div class="spec-label">디스플레이</div>
+                        <div class="spec-value highlight">17" IPS (2560x1600)</div>
+                    </div>
+                    
+                    <!-- Weight -->
+                    <div class="spec-item">
+                        <div class="spec-label">무게</div>
+                        <div class="spec-value">1.35kg</div>
+                    </div>
+                    
+                    <!-- Rating -->
+                    <div class="spec-item">
+                        <div class="spec-label">리뷰</div>
+                        <div class="spec-value">
+                            <div class="rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                                <span>4.0</span>
+                                <span class="review-count">(189)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-actions">
+                    <button class="primary-button" onclick="showToast('LG 그램 17이 장바구니에 추가되었습니다.')">
+                        <i class="fas fa-shopping-cart"></i>
+                        장바구니 추가
+                    </button>
+                    <button class="secondary-button" onclick="showToast('LG 그램 17이 비교 목록에서 제거되었습니다.')">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Product C -->
+            <div class="product-card">
+                <div class="product-header">맥북 프로 M2</div>
+                <div class="product-image">
+                    <img src="/api/placeholder/300/160" alt="맥북 프로 M2">
+                </div>
+                <div class="product-specs">
+                    <!-- Price -->
+                    <div class="spec-item">
+                        <div class="spec-label">가격</div>
+                        <div class="spec-value">2,350,000원</div>
+                    </div>
+                    
+                    <!-- Processor -->
+                    <div class="spec-item">
+                        <div class="spec-label">프로세서</div>
+                        <div class="spec-value highlight">Apple M2</div>
+                    </div>
+                    
+                    <!-- RAM -->
+                    <div class="spec-item">
+                        <div class="spec-label">메모리</div>
+                        <div class="spec-value highlight">16GB 통합 메모리</div>
+                    </div>
+                    
+                    <!-- Storage -->
+                    <div class="spec-item">
+                        <div class="spec-label">저장 공간</div>
+                        <div class="spec-value highlight">1TB SSD</div>
+                    </div>
+                    
+                    <!-- Display -->
+                    <div class="spec-item">
+                        <div class="spec-label">디스플레이</div>
+                        <div class="spec-value">14.2" Liquid Retina XDR</div>
+                    </div>
+                    
+                    <!-- Weight -->
+                    <div class="spec-item">
+                        <div class="spec-label">무게</div>
+                        <div class="spec-value">1.6kg</div>
+                    </div>
+                    
+                    <!-- Rating -->
+                    <div class="spec-item">
+                        <div class="spec-label">리뷰</div>
+                        <div class="spec-value">
+                            <div class="rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span>4.8</span>
+                                <span class="review-count">(327)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-actions">
+                    <button class="primary-button" onclick="showToast('맥북 프로 M2가 장바구니에 추가되었습니다.')">
+                        <i class="fas fa-shopping-cart"></i>
+                        장바구니 추가
+                    </button>
+                    <button class="secondary-button" onclick="showToast('맥북 프로 M2가 비교 목록에서 제거되었습니다.')">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Sticky header
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        // Toast notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toast-message');
+            
+            toastMessage.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(function() {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+        // 페이지 로드 시 URL 매개변수에서 상품 ID 가져오기
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const productIds = urlParams.get('products');
+            
+            if (productIds) {
+                // 여기서 productIds를 사용하여 상품 정보를 가져옵니다.
+                // 실제 구현에서는 서버에서 데이터를 가져오거나 로컬 데이터를 사용합니다.
+                console.log('비교할 상품 ID:', productIds.split(','));
+            }
+        });
+    </script>
+</body>
+</html>

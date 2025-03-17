@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>스마트픽 - 쇼핑의 시작</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #e93170;
+            --primary-dark: #d42665;
+            --primary-light: #ffedf3;
+            --text: #212529;
+            --white: #ffffff;
+            --gray: #e0e0e0;
+            --gray-light: #f8f9fa;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--white);
+            color: var(--text);
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            padding: 0 20px;
+        }
+        
+        .welcome-section {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .logo-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            line-height: 1.2;
+            margin-right: 15px;
+        }
+        
+        .brand-name {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .welcome-text {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+        
+        .welcome-description {
+            font-size: 16px;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+        
+        .options-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .option-card {
+            width: 340px;
+            background-color: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .option-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .option-header {
+            padding: 25px 20px;
+            background-color: var(--gray-light);
+            text-align: center;
+        }
+        
+        .option-icon {
+            font-size: 40px;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .option-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .option-description {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .option-body {
+            padding: 25px 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .option-features {
+            margin-bottom: 25px;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        
+        .feature-icon {
+            color: var(--primary);
+            font-size: 16px;
+        }
+        
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary-light);
+        }
+        
+        .footer-text {
+            text-align: center;
+            font-size: 13px;
+            color: #888;
+            margin-top: 40px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .options-container {
+                gap: 20px;
+            }
+            
+            .option-card {
+                width: 100%;
+                max-width: 340px;
+            }
+            
+            .logo {
+                width: 60px;
+                height: 60px;
+                font-size: 16px;
+            }
+            
+            .brand-name {
+                font-size: 24px;
+            }
+            
+            .welcome-text {
+                font-size: 16px;
+            }
+            
+            .welcome-description {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="welcome-section">
+            <div class="logo-wrapper">
+                <div class="logo">스마<br>트픽</div>
+                <div class="brand-name">스마트픽</div>
+            </div>
+            <p class="welcome-text">스마트한 쇼핑의 시작</p>
+            <p class="welcome-description">
+                스마트픽에 오신 것을 환영합니다. 바로 쇼핑을 시작하거나, 설문조사를 통해 원하는 상품을 쉽게 찾아보세요.
+            </p>
+        </div>
+        
+        <div class="options-container">
+            <!-- 메인 홈페이지로 가는 옵션 카드 -->
+            <div class="option-card">
+                <div class="option-header">
+                    <div class="option-icon">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <h2 class="option-title">바로 쇼핑하기</h2>
+                    <p class="option-description">다양한 상품 카테고리를 탐색하며 원하는 제품을 찾아보세요.</p>
+                </div>
+                <div class="option-body">
+                    <div class="option-features">
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle feature-icon"></i>
+                            <span>다양한 전자제품 카테고리</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle feature-icon"></i>
+                            <span>최신 인기 상품 확인</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle feature-icon"></i>
+                            <span>특별 할인 혜택</span>
+                        </div>
+                    </div>
+                    <a href="mainpage.html" class="btn btn-primary">
+                        <i class="fas fa-shopping-cart"></i> 쇼핑 시작하기
+                    </a>
+                </div>
+            </div>
+            
+            <!-- 설문조사로 가는 옵션 카드 -->
+            <div class="option-card">
+                <div class="option-header">
+                    <div class="option-icon">
+                        <i class="fas fa-clipboard-list"></i>
+                    </div>
+                    <h2 class="option-title">맞춤 제품 찾기</h2>
+                    <p class="option-description">간단한 설문조사로 나에게 딱 맞는 제품을 추천받으세요.</p>
+                </div>
+                <div class="option-body">
+                    <div class="option-features">
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle feature-icon"></i>
+                            <span>사용 목적에 맞는 제품 추천</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle feature-icon"></i>
+                            <span>가격대별 최적의 선택</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle feature-icon"></i>
+                            <span>개인 맞춤형 상품 비교</span>
+                        </div>
+                    </div>
+                    <a href="survey.html" class="btn btn-outline">
+                        <i class="fas fa-search"></i> 설문조사 시작하기
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <p class="footer-text">
+            © 2025 스마트픽. 모든 권리 보유. 최신 브라우저에 최적화되어 있습니다.
+        </p>
+    </div>
+</body>
+</html>
